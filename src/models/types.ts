@@ -38,6 +38,25 @@ export interface Transfer {
     createdAt: Date;
 }
 
+export interface CreditCard {
+    id: string;
+    userId: string;
+    name: string;
+    numberMasked: string;
+    expiryMonth: number;
+    expiryYear: number;
+    type: 'VISA' | 'AMEX' | 'MASTERCARD';
+    currency: string;
+    currentBalance: number;
+    availableCredit: number;
+    creditLimit: number;
+    minimumPayment: number;
+    paymentDueDate: string;
+    interestRate: number;
+    isLocked: boolean;
+    createdAt: Date;
+}
+
 export interface JWTPayload {
     userId: string;
     email: string;

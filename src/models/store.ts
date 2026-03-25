@@ -1,11 +1,12 @@
 // In-memory data store
-import { Account, Transaction, Transfer, User } from './types';
+import { Account, Transaction, Transfer, User, CreditCard } from './types';
 
 export class Store {
     private users: Map<string, User> = new Map();
     private accounts: Map<string, Account> = new Map();
     private transactions: Map<string, Transaction> = new Map();
     private transfers: Map<string, Transfer> = new Map();
+    private creditCards: Map<string, CreditCard> = new Map();
 
     // Users
     getUserById(id: string): User | undefined {
@@ -55,6 +56,20 @@ export class Store {
 
     getTransferById(id: string): Transfer | undefined {
         return this.transfers.get(id);
+    }
+
+    // Credit Cards
+    saveCreditCard(card: CreditCard): void {
+        this.creditCards.set(card.id, card);
+    }
+
+    getCreditCardById(id: string): CreditCard | undefined {
+        return this.creditCards.get(id);
+    }
+
+    getCreditCardsByUserId(userId: string): CreditCard[] {
+        return Array.from(this.creditCards.values())
+            .filter(c => c.userId === userId);
     }
 
     // Utility
