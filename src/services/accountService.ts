@@ -45,7 +45,9 @@ export class AccountService {
      */
     updateBalance(accountId: string, newBalance: number): Account {
         const account = this.getAccountById(accountId);
+        console.log("\n\nBALANCE:", account.balance);
         account.balance = Math.round(newBalance * 100) / 100;
+        console.log("\n\nBALANCE:", account.balance);
         store.saveAccount(account);
         return account;
     }

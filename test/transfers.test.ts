@@ -6,16 +6,14 @@ import { authService } from '../src/services/authService';
 
 describe('Transfer Routes', () => {
     let token: string;
-    let userId: string;
     let fromAccountId: string;
     let toAccountId: string;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
         await seedService.seed();
         const user = store.getUserByEmail('alex@example.com')!;
-        userId = user.id;
         token = authService.generateToken(user);
-        const accounts = store.getAccountsByUserId(userId);
+        const accounts = store.getAccountsByUserId(user.id);
         fromAccountId = accounts[0].id;
         toAccountId = accounts[1].id;
     });
@@ -42,6 +40,9 @@ describe('Transfer Routes', () => {
             const fromBefore = store.getAccountById(fromAccountId)!;
             const toBefore = store.getAccountById(toAccountId)!;
 
+            const fromBalanceBefore = fromBefore.balance;
+            const toBalanceBefore = toBefore.balance;
+
             await request(app)
                 .post('/transfers')
                 .set('Authorization', `Bearer ${token}`)
@@ -54,8 +55,8 @@ describe('Transfer Routes', () => {
             const fromAfter = store.getAccountById(fromAccountId)!;
             const toAfter = store.getAccountById(toAccountId)!;
 
-            expect(fromAfter.balance).toBe(fromBefore.balance - 50.0);
-            expect(toAfter.balance).toBe(toBefore.balance + 50.0);
+            expect(fromAfter.balance).toBe(fromBalanceBefore - 50.0);
+            expect(toAfter.balance).toBe(toBalanceBefore + 50.0);
         });
 
         it('should reject transfer with insufficient funds', async () => {

@@ -78,6 +78,7 @@ export class Store {
         this.accounts.clear();
         this.transactions.clear();
         this.transfers.clear();
+        this.creditCards.clear();
     }
 }
 

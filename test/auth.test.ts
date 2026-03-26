@@ -14,6 +14,8 @@ describe('Authentication Routes', () => {
 
     describe('POST /auth/register', () => {
         it('should register a new user', async () => {
+            store.clear();
+
             const response = await request(app)
                 .post('/auth/register')
                 .send({
