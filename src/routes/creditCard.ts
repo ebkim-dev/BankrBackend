@@ -103,9 +103,6 @@ router.get('/', (req: Request, res: Response, next: NextFunction) => {
  */
 router.get(
     '/:id',
-    validate({
-        id: { required: true, type: 'string' },
-    }),
     (req: Request, res: Response, next: NextFunction) => {
         try {
             const userId = req.userId;
@@ -123,7 +120,6 @@ router.get(
             const { id } = req.params;
             const card = creditCardService.getCardById(id);
 
-            // ownership check (keep it simple, consistent with their style)
             if (card.userId !== userId) {
                 throw {
                     code: 'FORBIDDEN',
@@ -144,9 +140,6 @@ router.get(
  */
 router.post(
     '/:id/lock',
-    validate({
-        id: { required: true, type: 'string' },
-    }),
     (req: Request, res: Response, next: NextFunction) => {
         try {
             const userId = req.userId;
@@ -164,7 +157,7 @@ router.post(
             const { id } = req.params;
 
             creditCardService.lockCard(id, userId);
-
+            
             res.status(200).json({ message: 'Card locked successfully' });
         } catch (err: any) {
             next(err);

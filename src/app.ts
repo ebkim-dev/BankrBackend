@@ -14,6 +14,7 @@ import meRoutes from './routes/me';
 import accountRoutes from './routes/accounts';
 import transactionRoutes from './routes/transactions';
 import transferRoutes from './routes/transfers';
+import creditCardRoutes from './routes/creditCard';
 
 const app: Express = express();
 
@@ -53,6 +54,7 @@ app.use('/me', authGuard, meRoutes);
 app.use('/accounts', authGuard, accountRoutes);
 app.use('/accounts', authGuard, transactionRoutes);
 app.use('/transfers', authGuard, transferRoutes);
+app.use('/creditcards', authGuard, creditCardRoutes);
 
 // 404 handler
 app.use((_req, res) => {
